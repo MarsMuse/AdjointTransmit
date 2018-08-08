@@ -1,6 +1,6 @@
 package com.artisan.transmit.slot.servlet;
 
-import org.springframework.beans.factory.annotation.Value;
+
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Configuration;
@@ -8,6 +8,7 @@ import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
+import javax.annotation.Resource;
 import javax.servlet.Servlet;
 
 /**
@@ -18,21 +19,12 @@ import javax.servlet.Servlet;
  *
  */
 @Configuration
-@ConditionalOnProperty(value = "transmit.slot.servlet.headers")
-@ConditionalOnClass({ Servlet.class, DispatcherServlet.class})
+@ConditionalOnProperty(value = "transmit.slot.servlet.enabled", matchIfMissing = true)
+@ConditionalOnClass({Servlet.class, DispatcherServlet.class})
 public class ServletHeaderGrabAutoConfiguration extends WebMvcConfigurerAdapter {
 
-    /**
-     * 需要拦截下来的头信息
-     */
-    @Value("${transmit.slot.servlet.headers}")
-    private String[] headers;
-
-    /**
-     * 需要匹配的头信息名称前缀
-     */
-    @Value("${transmit.slot.servlet.prefixHeader:artist-}")
-    private String prefixHeader;
+    @Resource
+    private ServletHeaderConfig servletHeaderConfig;
 
     /**
      *
@@ -43,6 +35,9 @@ public class ServletHeaderGrabAutoConfiguration extends WebMvcConfigurerAdapter 
      */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new HeaderGrabInterceptor(prefixHeader,headers)).addPathPatterns("/**");
+        registry.addInterceptor(new HeaderGrabInterceptor(servletHeaderConfig.getPrefixHeader(),
+                servletHeaderConfig.getHeaders())).addPathPatterns("/**");
     }
+
+
 }

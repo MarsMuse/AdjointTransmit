@@ -52,7 +52,7 @@ public class HeaderGrabInterceptor implements HandlerInterceptor {
         Enumeration<String> headerNames = request.getHeaderNames();
         while (headerNames.hasMoreElements()){
             String currentHeaderName = headerNames.nextElement();
-            if(currentHeaderName.startsWith(matchHeader)){
+            if(currentHeaderName.startsWith(matchHeader.toLowerCase())){
                 String value = request.getHeader(currentHeaderName);
                 if(null != value && value.length() >0){
                     FlumeBootStream.addParameter(currentHeaderName, value);
