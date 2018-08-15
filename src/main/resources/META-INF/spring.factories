@@ -3,4 +3,5 @@ com.artisan.transmit.sleuth.servlet.PermeateAutoConfiguration,\
 com.artisan.transmit.slot.servlet.ServletHeaderGrabAutoConfiguration,\
 com.artisan.transmit.slot.servlet.JerseyServletAutoConfig,\
 com.artisan.transmit.slot.servlet.ServletHeaderConfig,\
-com.artisan.transmit.slot.ribbon.RestHeaderAutoConfiguration
+com.artisan.transmit.slot.ribbon.RestHeaderAutoConfiguration,\
+com.artisan.transmit.slot.feign.FeignFlumeInterceptor
